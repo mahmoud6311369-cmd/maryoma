@@ -266,6 +266,23 @@
 
     /* السايد */
     .side{ padding:22px; display:flex; flex-direction:column; gap:14px; }
+
+    /* ✅ (مضاف) جاليري 5 صور تحت بعض */
+    .gallery{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      max-height: 78vh;     /* يخلي في سكرول للسايد */
+      overflow:auto;
+      padding-right: 2px;
+    }
+    .gallery::-webkit-scrollbar{ width: 10px; }
+    .gallery::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.10);
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,.25);
+    }
+
     .photo{
       border-radius: 24px; overflow:hidden;
       border:1px solid rgba(255,255,255,.12);
@@ -296,6 +313,7 @@
       backdrop-filter: blur(10px);
       font-weight:900;
       display:flex; justify-content:space-between; gap:10px;
+      z-index: 6;
     }
     .caption b{ color:#ffb3c3; text-shadow: 0 0 18px rgba(225,29,72,.22); }
 
@@ -369,6 +387,81 @@
       letter-spacing:.1px;
     }
 
+    /* ✅ (مضاف) حركة بسيطة للصورة + فقاعات */
+    .photo{
+      transform: translateZ(0);
+      animation: photoFloat 6s ease-in-out infinite;
+    }
+    @keyframes photoFloat{
+      0%,100%{ transform: translateY(0) rotate(-0.2deg); }
+      50%{ transform: translateY(-6px) rotate(0.2deg); }
+    }
+    .photo img{
+      animation: imgBreath 7.5s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes imgBreath{
+      0%,100%{ transform: scale(1.02); }
+      50%{ transform: scale(1.05); }
+    }
+    .photo:hover{
+      animation-play-state: paused;
+      transform: translateY(-4px) scale(1.01);
+    }
+    .photo:hover img{
+      animation-play-state: paused;
+      transform: scale(1.06);
+    }
+
+    .bubbles{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: 5;
+    }
+    .bubbles i{
+      position:absolute;
+      bottom:-24px;
+      width: 14px;
+      height: 14px;
+      transform: rotate(45deg);
+      background: rgba(225,29,72,.22);
+      border-radius: 5px;
+      filter: blur(.15px);
+      box-shadow: 0 0 22px rgba(225,29,72,.25);
+      animation: bubbleUp var(--dur, 2600ms) ease-out forwards;
+      opacity: .95;
+      will-change: transform, opacity;
+    }
+    .bubbles i::before,.bubbles i::after{
+      content:"";
+      position:absolute;
+      width:14px; height:14px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .bubbles i::before{ left:-7px; top:0; }
+    .bubbles i::after{ left:0; top:-7px; }
+    @keyframes bubbleUp{
+      from { transform: translate(var(--x,0px), 0) rotate(45deg) scale(var(--sc,1)); opacity: .95; }
+      to   { transform: translate(var(--x2,0px), -360px) rotate(45deg) scale(calc(var(--sc,1) + .2)); opacity: 0; }
+    }
+
+    /* ✅ (مضاف) جملة رومانسية تحت كل صورة */
+    .romText{
+      margin-top:10px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.92);
+      line-height:1.9;
+      font-weight: 900;
+      letter-spacing: .12px;
+    }
+    .romText b{ color:#ffb3c3; text-shadow: 0 0 18px rgba(225,29,72,.18); }
+
     @media (max-width: 900px){
       .container{ grid-template-columns: 1fr; }
       .grid{ grid-template-columns: 1fr; }
@@ -376,6 +469,7 @@
       .time{ min-width: 90px; }
       .vol{ width: 100%; }
       .counterGrid{ grid-template-columns: repeat(2, 1fr); }
+      .gallery{ max-height: unset; overflow: visible; }
     }
   </style>
 </head>
@@ -480,12 +574,43 @@
       </section>
 
       <aside class="card side">
-        <div class="photo">
-          <img src="maryoma.jpg" alt="Maryoma">
-          <div class="caption">
-            <span>💗 صورة <b>Maryoma</b></span>
-            <span style="opacity:.85;">🖤❤️</span>
+        <!-- ✅ (مضاف) جاليري 5 صور تحت بعض + جملة تحت كل صورة -->
+        <div class="gallery" id="gallery">
+
+          <div class="photo" data-bubbles="true">
+            <div class="bubbles" aria-hidden="true"></div>
+            <img src="maryoma1.jpg" alt="Maryoma 1">
+            <div class="caption">
+              <span>💗 صورة <b>Maryoma</b></span>
+              <span style="opacity:.85;">🖤❤️</span>
+            </div>
           </div>
+          <div class="romText">"في كل صورة ليكي… أنا بشوف <b>حِتّة سلام</b> من الدنيا."</div>
+
+          <div class="photo" data-bubbles="true">
+            <div class="bubbles" aria-hidden="true"></div>
+            <img src="maryoma2.jpg" alt="Maryoma 2">
+          </div>
+          <div class="romText">"ضحكتك بتعمل جوا قلبي <b>عيد</b> من غير سبب."</div>
+
+          <div class="photo" data-bubbles="true">
+            <div class="bubbles" aria-hidden="true"></div>
+            <img src="maryoma3.jpg" alt="Maryoma 3">
+          </div>
+          <div class="romText">"إنتِ مش اختيار… إنتِ <b>أجمل قَدَر</b> حصل لي."</div>
+
+          <div class="photo" data-bubbles="true">
+            <div class="bubbles" aria-hidden="true"></div>
+            <img src="maryoma4.jpg" alt="Maryoma 4">
+          </div>
+          <div class="romText">"وجودك جنبي… بيخلّي كل حاجة <b>أهون</b> وأحلى."</div>
+
+          <div class="photo" data-bubbles="true">
+            <div class="bubbles" aria-hidden="true"></div>
+            <img src="maryoma5.jpg" alt="Maryoma 5">
+          </div>
+          <div class="romText">"أنا بحبك… بطريقة تخلي أي يوم <b>يتصلّح</b> لما تبصيلي."</div>
+
         </div>
 
         <div class="quote">“ وجودك <b>أمان</b>… وصوتك راحة… وابتسامتك أجمل حاجة في اليوم. ”</div>
@@ -717,7 +842,7 @@
       const d = new Date(date);
       const day = d.getDate();
       d.setMonth(d.getMonth() + m);
-      if (d.getDate() !== day) d.setDate(0); // آخر يوم في الشهر لو الشهر أقصر
+      if (d.getDate() !== day) d.setDate(0);
       return d;
     }
 
@@ -726,7 +851,6 @@
 
       let cursor = new Date(from);
 
-      // سنين
       let years = to.getFullYear() - cursor.getFullYear();
       let test = new Date(cursor);
       test.setFullYear(cursor.getFullYear() + years);
@@ -736,7 +860,6 @@
       }
       cursor = test;
 
-      // شهور
       let months = (to.getFullYear() - cursor.getFullYear()) * 12 + (to.getMonth() - cursor.getMonth());
       test = addMonths(cursor, months);
       if (test > to){
@@ -745,8 +868,7 @@
       }
       cursor = test;
 
-      // باقي الوقت
-      let diff = to - cursor; // ms
+      let diff = to - cursor;
       const sec = Math.floor(diff / 1000);
 
       const days = Math.floor(sec / 86400);
@@ -771,6 +893,49 @@
 
     tickCounter();
     setInterval(tickCounter, 1000);
+
+    // ✅ (مضاف) فقاعات قلوب لكل صورة في الجاليري (من غير ما نغير القديم)
+    function spawnBubbleFor(bubblesEl){
+      const b = document.createElement("i");
+      b.style.left = (Math.random() * 100) + "%";
+
+      const size = 10 + Math.random() * 14;
+      b.style.width = size + "px";
+      b.style.height = size + "px";
+
+      const alpha = 0.14 + Math.random() * 0.22;
+      b.style.background = `rgba(225,29,72,${alpha.toFixed(2)})`;
+
+      const x = (Math.random() * 30 - 15);
+      const x2 = x + (Math.random() * 40 - 20);
+      const sc = 0.75 + Math.random() * 0.6;
+      const dur = 2200 + Math.random() * 1600;
+
+      b.style.setProperty("--x", x + "px");
+      b.style.setProperty("--x2", x2 + "px");
+      b.style.setProperty("--sc", sc);
+      b.style.setProperty("--dur", dur + "ms");
+
+      bubblesEl.appendChild(b);
+      setTimeout(() => b.remove(), dur + 200);
+    }
+
+    const photos = document.querySelectorAll('.photo[data-bubbles="true"]');
+    photos.forEach((photo) => {
+      const bubblesEl = photo.querySelector(".bubbles");
+      if (!bubblesEl) return;
+
+      let t = setInterval(() => spawnBubbleFor(bubblesEl), 650);
+
+      photo.addEventListener("mouseenter", () => {
+        clearInterval(t);
+        t = setInterval(() => spawnBubbleFor(bubblesEl), 260);
+      });
+      photo.addEventListener("mouseleave", () => {
+        clearInterval(t);
+        t = setInterval(() => spawnBubbleFor(bubblesEl), 650);
+      });
+    });
   </script>
 </body>
-    </html>
+</html>

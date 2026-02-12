@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -21,6 +21,7 @@
     }
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       font-family:"Cairo", system-ui, -apple-system, Segoe UI, Arial;
@@ -30,27 +31,50 @@
         radial-gradient(900px 650px at 86% 20%, rgba(225,29,72,.10), transparent 60%),
         linear-gradient(135deg, var(--bg0), var(--bg1));
       overflow-x:hidden;
+
+      font-weight: 600;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* خلفية قلوب رايقة */
-    .float{ position:fixed; inset:-40px; pointer-events:none; opacity:.45; z-index:0; }
+    /* خلفية قلوب أوضح */
+    .float{
+      position:fixed; inset:-40px;
+      pointer-events:none;
+      opacity:.65;
+      z-index:0;
+    }
     .float span{
-      position:absolute; width:12px; height:12px;
+      position:absolute;
+      width:14px; height:14px;
       transform: rotate(45deg);
-      background: rgba(225,29,72,.16);
+      background: rgba(225,29,72,.22);
       border-radius: 5px;
       animation: drift 14s linear infinite;
-      box-shadow: 0 0 22px rgba(225,29,72,.16);
+      box-shadow: 0 0 28px rgba(225,29,72,.30);
+      filter: blur(.2px);
+      will-change: transform, opacity;
     }
     .float span::before,.float span::after{
-      content:""; position:absolute; width:12px; height:12px;
+      content:""; position:absolute; width:14px; height:14px;
       background: inherit; border-radius: 50%;
     }
-    .float span::before{ left:-6px; top:0; }
-    .float span::after{ left:0; top:-6px; }
+    .float span::before{ left:-7px; top:0; }
+    .float span::after{ left:0; top:-7px; }
+
     @keyframes drift{
       from{ transform: translateY(120vh) rotate(45deg); }
       to{ transform: translateY(-35vh) rotate(45deg); }
+    }
+
+    /* Burst animation (بديل element.animate عشان Quick Code) */
+    .float span.burst{
+      animation: burstMove var(--dur, 1100ms) cubic-bezier(.2,.9,.2,1) forwards !important;
+    }
+    @keyframes burstMove{
+      from{ transform: translate(0,0) rotate(45deg) scale(1); opacity: 1; }
+      to  { transform: translate(var(--dx, 0px), var(--dy, -200px)) rotate(45deg) scale(var(--sc, 1)); opacity: 0; }
     }
 
     .page{
@@ -96,6 +120,7 @@
       font-size: clamp(28px, 3.8vw, 54px);
       line-height:1.02;
       font-weight: 900;
+      letter-spacing: .2px;
     }
     .name{ color:#fff; text-shadow: 0 0 26px rgba(225,29,72,.28); }
     .lead{
@@ -104,6 +129,7 @@
       font-size:16px;
       line-height:1.9;
       max-width: 62ch;
+      letter-spacing: .15px;
     }
 
     .grid{
@@ -118,6 +144,7 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.22);
       min-height: 190px;
+      line-height: 1.9;
     }
     .panel h3{
       margin:0 0 8px;
@@ -156,12 +183,14 @@
       line-height:1.95;
       color: rgba(255,255,255,.90);
       padding-top: 6px;
+      letter-spacing: .12px;
     }
 
     .footerNote{
       padding: 0 30px 26px;
       color: rgba(243,243,243,.60);
       font-size: 13px;
+      letter-spacing: .1px;
     }
 
     /* مشغل موسيقى أنيق */
@@ -241,6 +270,7 @@
       border:1px solid rgba(255,255,255,.10);
       line-height:1.9;
       color: rgba(255,255,255,.90);
+      letter-spacing: .12px;
     }
     .quote b{ color:#ffb3c3; }
 
@@ -277,8 +307,8 @@
       box-shadow: var(--shadow);
       padding: 20px;
     }
-    .gateTitle{ margin:12px 0 8px; font-weight:900; font-size:22px; }
-    .gateText{ margin:0 0 14px; color: rgba(243,243,243,.80); line-height:1.9; }
+    .gateTitle{ margin:12px 0 8px; font-weight:900; font-size:22px; letter-spacing:.12px; }
+    .gateText{ margin:0 0 14px; color: rgba(243,243,243,.80); line-height:1.9; letter-spacing:.1px; }
     .field{
       display:flex; gap:10px; flex-wrap:wrap;
       margin-top: 10px;
@@ -293,12 +323,14 @@
       outline:none;
       font-family: inherit;
       font-weight:800;
+      letter-spacing:.15px;
     }
     .err{
       margin-top:10px;
       color: #ffb3c3;
       font-weight:800;
       display:none;
+      letter-spacing:.1px;
     }
 
     @media (max-width: 900px){
@@ -354,7 +386,7 @@
 
             <div class="cta">
               <button class="btn-primary" id="openModal">افتح الرسالة</button>
-              <button class="btn-ghost" id="sparkle">فاجأة قلوب</button>
+              <button class="btn-ghost" id="sparkle">قلوب❤</button>
             </div>
 
             <div class="music">
@@ -375,12 +407,11 @@
                 <input class="vol" id="vol" type="range" min="0" max="1" value="0.65" step="0.01" aria-label="Volume">
               </div>
 
-          <audio id="audio" preload="metadata" playsinline>
-  <source src="song.m4a" type="audio/mp4">
-</audio>
+              <audio id="audio" preload="metadata" playsinline>
+                <source src="song.m4a" type="audio/mp4">
+              </audio>
 
               <small style="color:rgba(243,243,243,.65); line-height:1.8;">
-                
               </small>
             </div>
           </div>
@@ -393,7 +424,7 @@
         </div>
 
         <div class="footerNote">
-     لـو فتحتـي قلبـي هتلاقـي: <b>عيونـگ</b> + <b>ضحكتـگ</b> + <b>صوتـگ</b>.
+          لـو فتحتـي قلبـي هتلاقـي: <b>عيونـگ</b> + <b>ضحكتـگ</b> + <b>صوتـگ</b>.
         </div>
       </section>
 
@@ -456,16 +487,16 @@
     const float = document.getElementById("float");
     function addBackgroundHearts(){
       float.innerHTML = "";
-      const hearts = 26;
+      const hearts = 40;
       for (let i = 0; i < hearts; i++) {
         const s = document.createElement("span");
         s.style.left = (Math.random()*100) + "%";
         s.style.animationDelay = (Math.random()*10) + "s";
         s.style.animationDuration = (12 + Math.random()*12) + "s";
-        const size = 9 + Math.random()*13;
+        const size = 10 + Math.random()*16;
         s.style.width = size + "px";
         s.style.height = size + "px";
-        const alpha = 0.10 + Math.random()*0.22;
+        const alpha = 0.16 + Math.random()*0.28;
         s.style.background = `rgba(225,29,72,${alpha.toFixed(2)})`;
         s.style.top = (70 + Math.random()*60) + "vh";
         float.appendChild(s);
@@ -496,15 +527,74 @@
       catch(e){ alert("انسخ يدويًا."); }
     });
 
+    // ====== (زر فاجأة قلوب) Burst مضمون في Quick Code ======
+    function burstHearts(count = 26){
+      for (let i = 0; i < count; i++){
+        const s = document.createElement("span");
+        s.classList.add("burst");
+
+        const size = 10 + Math.random()*18;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+
+        const x = 35 + Math.random()*30; // %
+        const y = 45 + Math.random()*20; // vh
+        s.style.left = x + "%";
+        s.style.top  = y + "vh";
+
+        const alpha = 0.22 + Math.random()*0.35;
+        s.style.background = `rgba(225,29,72,${alpha.toFixed(2)})`;
+
+        // اتجاه الانفجار
+        const dx = (Math.random()*180 - 90);     // px
+        const dy = -(160 + Math.random()*260);   // px
+        const sc = (0.7 + Math.random()*0.7);
+        const dur = (900 + Math.random()*700);
+
+        s.style.setProperty("--dx", dx + "px");
+        s.style.setProperty("--dy", dy + "px");
+        s.style.setProperty("--sc", sc);
+        s.style.setProperty("--dur", dur + "ms");
+
+        // مهم: بدون drift للـ burst
+        s.style.animationDelay = "0s";
+
+        float.appendChild(s);
+        setTimeout(() => s.remove(), dur + 250);
+      }
+    }
+
     document.getElementById("sparkle").addEventListener("click", () => {
-      document.body.animate(
-        [{transform:"translateY(0)"},{transform:"translateY(2px)"},{transform:"translateY(-2px)"},{transform:"translateY(0)"}],
-        {duration:240, iterations:1}
-      );
-      const old = float.style.opacity;
-      float.style.opacity = "0.65";
-      addBackgroundHearts();
-      setTimeout(() => { float.style.opacity = old || "0.45"; }, 900);
+      burstHearts(34);
+    });
+
+    // ====== دخول بالباسورد + تشغيل تلقائي بعد الدخول ======
+    async function enter(withMusic){
+      gate.style.display = "none";
+      if (!withMusic) return;
+      try{
+        await audio.play();
+        setPlayingUI(true);
+      }catch(e){
+        songStatus.textContent = "اضغط تشغيل";
+      }
+    }
+
+    function tryLogin(withMusic){
+      if (pw.value === PASSWORD){
+        err.style.display = "none";
+        enter(withMusic);
+      }else{
+        err.style.display = "block";
+        shake(document.querySelector(".gateCard"));
+        pw.focus();
+      }
+    }
+
+    loginBtn.addEventListener("click", () => tryLogin(true));
+    enterMute.addEventListener("click", () => tryLogin(false));
+    pw.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") tryLogin(true);
     });
 
     // ====== (5) مشغل الموسيقى ======
@@ -560,35 +650,6 @@
     });
 
     audio.addEventListener("ended", () => { setPlayingUI(false); seek.value = "0"; });
-
-    // ====== دخول بالباسورد + تشغيل تلقائي بعد الدخول ======
-    async function enter(withMusic){
-      gate.style.display = "none";
-      if (!withMusic) return;
-      try{
-        await audio.play(); // هنا هيشتغل فورًا بعد اللمسة (مسموح)
-        setPlayingUI(true);
-      }catch(e){
-        songStatus.textContent = "اضغط تشغيل";
-      }
-    }
-
-    function tryLogin(withMusic){
-      if (pw.value === PASSWORD){
-        err.style.display = "none";
-        enter(withMusic);
-      }else{
-        err.style.display = "block";
-        shake(document.querySelector(".gateCard"));
-        pw.focus();
-      }
-    }
-
-    loginBtn.addEventListener("click", () => tryLogin(true));
-    enterMute.addEventListener("click", () => tryLogin(false));
-    pw.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") tryLogin(true);
-    });
   </script>
 </body>
-</html>
+  </html>

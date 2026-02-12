@@ -228,6 +228,42 @@
     input[type="range"]{ width:100%; accent-color: var(--accent); }
     .vol{ width: 170px; min-width: 140px; }
 
+    /* ===== عدّاد ===== */
+    .counter{
+      margin-top:14px;
+      padding:14px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+    }
+    .counterGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    .cItem{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      padding:10px 8px;
+      text-align:center;
+    }
+    .cItem b{
+      display:block;
+      font-size:20px;
+      font-weight:900;
+      color:#ffb3c3;
+      text-shadow: 0 0 18px rgba(225,29,72,.18);
+    }
+    .cItem span{
+      display:block;
+      margin-top:2px;
+      font-size:12px;
+      color:rgba(243,243,243,.75);
+      font-weight:800;
+    }
+
     /* السايد */
     .side{ padding:22px; display:flex; flex-direction:column; gap:14px; }
     .photo{
@@ -339,6 +375,7 @@
       .photo{ min-height: 280px; }
       .time{ min-width: 90px; }
       .vol{ width: 100%; }
+      .counterGrid{ grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -387,6 +424,20 @@
             <div class="cta">
               <button class="btn-primary" id="openModal">افتح الرسالة</button>
               <button class="btn-ghost" id="sparkle">قلوب❤</button>
+            </div>
+
+            <!-- ====== عدّاد من يوم ما اتقابلنا (مضاف) ====== -->
+            <div class="counter" id="counter">
+              <h3 style="margin:0 0 8px; font-size:18px; font-weight:900;">⏳ عدّاد من يوم ما اتقابلنا</h3>
+              <div class="counterGrid">
+                <div class="cItem"><b id="cYears">0</b><span>سنة</span></div>
+                <div class="cItem"><b id="cMonths">0</b><span>شهر</span></div>
+                <div class="cItem"><b id="cDays">0</b><span>يوم</span></div>
+                <div class="cItem"><b id="cHours">00</b><span>ساعة</span></div>
+                <div class="cItem"><b id="cMinutes">00</b><span>دقيقة</span></div>
+                <div class="cItem"><b id="cSeconds">00</b><span>ثانية</span></div>
+              </div>
+              <small style="color:rgba(243,243,243,.65); line-height:1.8;">بيتحسب لحظة بلحظة 🖤❤️</small>
             </div>
 
             <div class="music">
@@ -650,6 +701,76 @@
     });
 
     audio.addEventListener("ended", () => { setPlayingUI(false); seek.value = "0"; });
+
+    // ====== (6) عدّاد من يوم ما اتقابلنا (مضاف) ======
+    // التاريخ: 20/7/2025 (الشهر في JS يبدأ من 0، فـ 6 = يوليو)
+    const since = new Date(2025, 6, 20, 0, 0, 0);
+
+    const cYears = document.getElementById("cYears");
+    const cMonths = document.getElementById("cMonths");
+    const cDays = document.getElementById("cDays");
+    const cHours = document.getElementById("cHours");
+    const cMinutes = document.getElementById("cMinutes");
+    const cSeconds = document.getElementById("cSeconds");
+
+    function addMonths(date, m){
+      const d = new Date(date);
+      const day = d.getDate();
+      d.setMonth(d.getMonth() + m);
+      if (d.getDate() !== day) d.setDate(0); // آخر يوم في الشهر لو الشهر أقصر
+      return d;
+    }
+
+    function calcYMDHMS(from, to){
+      if (to < from) return {years:0, months:0, days:0, hours:0, minutes:0, seconds:0};
+
+      let cursor = new Date(from);
+
+      // سنين
+      let years = to.getFullYear() - cursor.getFullYear();
+      let test = new Date(cursor);
+      test.setFullYear(cursor.getFullYear() + years);
+      if (test > to){
+        years--;
+        test.setFullYear(test.getFullYear() - 1);
+      }
+      cursor = test;
+
+      // شهور
+      let months = (to.getFullYear() - cursor.getFullYear()) * 12 + (to.getMonth() - cursor.getMonth());
+      test = addMonths(cursor, months);
+      if (test > to){
+        months--;
+        test = addMonths(cursor, months);
+      }
+      cursor = test;
+
+      // باقي الوقت
+      let diff = to - cursor; // ms
+      const sec = Math.floor(diff / 1000);
+
+      const days = Math.floor(sec / 86400);
+      const hours = Math.floor((sec % 86400) / 3600);
+      const minutes = Math.floor((sec % 3600) / 60);
+      const seconds = sec % 60;
+
+      return { years, months, days, hours, minutes, seconds };
+    }
+
+    function tickCounter(){
+      const now = new Date();
+      const t = calcYMDHMS(since, now);
+
+      cYears.textContent = t.years;
+      cMonths.textContent = t.months;
+      cDays.textContent = t.days;
+      cHours.textContent = String(t.hours).padStart(2, "0");
+      cMinutes.textContent = String(t.minutes).padStart(2, "0");
+      cSeconds.textContent = String(t.seconds).padStart(2, "0");
+    }
+
+    tickCounter();
+    setInterval(tickCounter, 1000);
   </script>
 </body>
-  </html>
+</html>

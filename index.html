@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maryoma 🖤❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#07070a; --bg1:#0b0b10;
+      --text:#f3f3f3; --muted: rgba(243,243,243,.72);
+      --card: rgba(255,255,255,.06); --card2: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.10);
+      --accent:#e11d48; --accentSoft: rgba(225,29,72,.18);
+      --shadow: 0 22px 90px rgba(0,0,0,.62);
+      --radius: 28px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:"Cairo", system-ui, -apple-system, Segoe UI, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 520px at 16% 10%, rgba(225,29,72,.14), transparent 55%),
+        radial-gradient(900px 650px at 86% 20%, rgba(225,29,72,.10), transparent 60%),
+        linear-gradient(135deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* خلفية قلوب رايقة */
+    .float{ position:fixed; inset:-40px; pointer-events:none; opacity:.45; z-index:0; }
+    .float span{
+      position:absolute; width:12px; height:12px;
+      transform: rotate(45deg);
+      background: rgba(225,29,72,.16);
+      border-radius: 5px;
+      animation: drift 14s linear infinite;
+      box-shadow: 0 0 22px rgba(225,29,72,.16);
+    }
+    .float span::before,.float span::after{
+      content:""; position:absolute; width:12px; height:12px;
+      background: inherit; border-radius: 50%;
+    }
+    .float span::before{ left:-6px; top:0; }
+    .float span::after{ left:0; top:-6px; }
+    @keyframes drift{
+      from{ transform: translateY(120vh) rotate(45deg); }
+      to{ transform: translateY(-35vh) rotate(45deg); }
+    }
+
+    .page{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: clamp(16px, 3.5vw, 38px);
+      position:relative;
+      z-index:1;
+    }
+
+    .container{
+      width:min(1140px, 100%);
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .card{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+
+    .mainHeader{ padding: 30px 30px 14px; }
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 12px; border-radius:999px;
+      background: var(--accentSoft);
+      border: 1px solid rgba(225,29,72,.35);
+      color: #ffd5df;
+      font-weight: 900;
+      letter-spacing:.2px;
+      font-size:14px;
+    }
+    .title{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 3.8vw, 54px);
+      line-height:1.02;
+      font-weight: 900;
+    }
+    .name{ color:#fff; text-shadow: 0 0 26px rgba(225,29,72,.28); }
+    .lead{
+      margin:0;
+      color: var(--muted);
+      font-size:16px;
+      line-height:1.9;
+      max-width: 62ch;
+    }
+
+    .grid{
+      padding: 0 30px 26px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    .panel{
+      border-radius: 22px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      min-height: 190px;
+    }
+    .panel h3{
+      margin:0 0 8px;
+      font-size:18px;
+      font-weight: 900;
+      display:flex; align-items:center; gap:8px;
+    }
+    .panel small{ color: rgba(243,243,243,.68); }
+
+    .cta{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+    button{
+      border:0; cursor:pointer;
+      padding:12px 16px;
+      border-radius:16px;
+      font-weight: 900;
+      font-family: inherit;
+      color:#fff;
+      transition: transform .08s ease, opacity .2s ease;
+    }
+    button:active{ transform: translateY(1px) scale(.99); }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--accent), #b31237);
+      box-shadow: 0 14px 34px rgba(225,29,72,.25);
+    }
+    .btn-ghost{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
+    }
+    .btn-primary:hover{ opacity:.96; }
+    .btn-ghost:hover{ opacity:.96; }
+
+    .typeBox{
+      min-height: 104px;
+      font-size:16px;
+      line-height:1.95;
+      color: rgba(255,255,255,.90);
+      padding-top: 6px;
+    }
+
+    .footerNote{
+      padding: 0 30px 26px;
+      color: rgba(243,243,243,.60);
+      font-size: 13px;
+    }
+
+    /* مشغل موسيقى أنيق */
+    .music{
+      margin-top:14px;
+      padding:12px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      display:grid;
+      gap:10px;
+    }
+    .musicTop{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px; flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-weight:900;
+      font-size:14px;
+      color: rgba(255,255,255,.9);
+    }
+    .rowLine{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .time{
+      font-variant-numeric: tabular-nums;
+      color: rgba(255,255,255,.75);
+      font-size:13px;
+      min-width: 112px;
+      text-align:center;
+    }
+    input[type="range"]{ width:100%; accent-color: var(--accent); }
+    .vol{ width: 170px; min-width: 140px; }
+
+    /* السايد */
+    .side{ padding:22px; display:flex; flex-direction:column; gap:14px; }
+    .photo{
+      border-radius: 24px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+      min-height: 340px;
+      box-shadow: 0 18px 58px rgba(0,0,0,.45);
+      background: rgba(0,0,0,.18);
+    }
+    .photo img{
+      width:100%; height:100%;
+      object-fit:cover; display:block;
+      filter: contrast(1.03) saturate(1.06);
+      transform: scale(1.02);
+    }
+    .photo::after{
+      content:""; position:absolute; inset:0;
+      background:
+        radial-gradient(560px 280px at 20% 10%, rgba(225,29,72,.32), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.64));
+      pointer-events:none;
+    }
+    .caption{
+      position:absolute; left:14px; right:14px; bottom:14px;
+      padding:12px 14px;
+      border-radius:18px;
+      background: rgba(0,0,0,.42);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+      font-weight:900;
+      display:flex; justify-content:space-between; gap:10px;
+    }
+    .caption b{ color:#ffb3c3; text-shadow: 0 0 18px rgba(225,29,72,.22); }
+
+    .quote{
+      padding:16px;
+      border-radius: 22px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      line-height:1.9;
+      color: rgba(255,255,255,.90);
+    }
+    .quote b{ color:#ffb3c3; }
+
+    dialog{
+      width:min(560px, 92vw);
+      border:0; border-radius: 24px;
+      padding:0;
+      box-shadow: var(--shadow);
+      background: rgba(12,12,16,.92);
+      border:1px solid rgba(255,255,255,.10);
+      color:#fff;
+      backdrop-filter: blur(12px);
+    }
+    dialog::backdrop{ background: rgba(0,0,0,.55); }
+    .modal{ padding:20px; }
+    .modal h2{ margin:0 0 8px; font-weight:900; }
+    .modal p{ margin:0 0 14px; line-height:1.95; color: rgba(255,255,255,.86); }
+    .modal .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+
+    /* شاشة باسورد */
+    .gate{
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+      background: rgba(0,0,0,.70);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+    }
+    .gateCard{
+      width:min(560px, 100%);
+      border-radius: 28px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .gateTitle{ margin:12px 0 8px; font-weight:900; font-size:22px; }
+    .gateText{ margin:0 0 14px; color: rgba(243,243,243,.80); line-height:1.9; }
+    .field{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    input[type="password"]{
+      flex: 1 1 220px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.30);
+      color:#fff;
+      outline:none;
+      font-family: inherit;
+      font-weight:800;
+    }
+    .err{
+      margin-top:10px;
+      color: #ffb3c3;
+      font-weight:800;
+      display:none;
+    }
+
+    @media (max-width: 900px){
+      .container{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .photo{ min-height: 280px; }
+      .time{ min-width: 90px; }
+      .vol{ width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="float" aria-hidden="true" id="float"></div>
+
+  <!-- Password Gate -->
+  <div class="gate" id="gate">
+    <div class="gateCard">
+      <div class="badge">🖤❤️ صفحة خاصة بـ <span class="name">Maryoma</span></div>
+      <h2 class="gateTitle">ادخل الباسورد للدخول 🔒</h2>
+      <p class="gateText">
+​"أنت مش بس حبيبي، أنت المكان اللي بتهرب إليه روحي من تعب الدنيا."
+      </p>
+
+      <div class="field">
+        <input id="pw" type="password" placeholder="انتي عرفاه🥺❤" autocomplete="off" inputmode="text">
+        <button class="btn-primary" id="loginBtn">دخول ✨</button>
+        <button class="btn-ghost" id="enterMute">دخول بدون موسيقى</button>
+      </div>
+
+      <div class="err" id="err">الباسورد غلط… جرّب تاني ❤️</div>
+
+      <p class="gateText" style="margin-top:12px; font-size:13px; opacity:.75;">
+        : <b></b>  <b></b>
+      </p>
+    </div>
+  </div>
+
+  <div class="page">
+    <main class="container">
+      <section class="card">
+        <header class="mainHeader">
+          <div class="badge">🖤❤️ رسالة إلى <span class="name">Maryoma</span></div>
+          <h1 class="title">مـرﯾـم… <span style="color:#ffb3c3;">أنتِ</span> الهدوء وسط كل دوشة</h1>
+          <p class="lead"> </p>
+        </header>
+
+        <div class="grid">
+          <div class="panel">
+            <h3>ذكـري تـدوم للابـد ❤🫂</h3>
+            <small>تـاريخ ميلادنا التاني</small>
+            <div style="margin-top:10px; font-weight:900;">20/7/2025  — أول مرة حسّيت إن الدنيا اتظبطت ✨</div>
+
+            <div class="cta">
+              <button class="btn-primary" id="openModal">افتح الرسالة</button>
+              <button class="btn-ghost" id="sparkle">فاجأة قلوب</button>
+            </div>
+
+            <div class="music">
+              <div class="musicTop">
+                <div class="pill">🎵 Maryoma - song.mp3</div>
+                <div class="pill" id="songStatus">جاهز</div>
+              </div>
+
+              <div class="rowLine">
+                <button class="btn-primary" id="playBtn" style="padding:10px 14px; border-radius:14px;">▶️ تشغيل</button>
+                <div class="time" id="timeLabel">00:00 / 00:00</div>
+              </div>
+
+              <input id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+
+              <div class="rowLine" style="justify-content:space-between;">
+                <div class="pill">🔊 الصوت</div>
+                <input class="vol" id="vol" type="range" min="0" max="1" value="0.65" step="0.01" aria-label="Volume">
+              </div>
+
+          <audio id="audio" preload="metadata" playsinline>
+  <source src="song.m4a" type="audio/mp4">
+</audio>
+
+              <small style="color:rgba(243,243,243,.65); line-height:1.8;">
+                
+              </small>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>💌 كلام صغير</h3>
+            <div id="type" class="typeBox"></div>
+            <small>   </small>
+          </div>
+        </div>
+
+        <div class="footerNote">
+     لـو فتحتـي قلبـي هتلاقـي: <b>عيونـگ</b> + <b>ضحكتـگ</b> + <b>صوتـگ</b>.
+        </div>
+      </section>
+
+      <aside class="card side">
+        <div class="photo">
+          <img src="maryoma.jpg" alt="Maryoma">
+          <div class="caption">
+            <span>💗 صورة <b>Maryoma</b></span>
+            <span style="opacity:.85;">🖤❤️</span>
+          </div>
+        </div>
+
+        <div class="quote">“ وجودك <b>أمان</b>… وصوتك راحة… وابتسامتك أجمل حاجة في اليوم. ”</div>
+
+        <div class="quote">
+          <b>حاجات بحبها فيكي:</b>
+          <ul style="margin:10px 0 0; padding-inline-start:18px; color:rgba(255,255,255,.88);">
+            <li>الضحكة اللي بتصلّح اليوم</li>
+            <li>الروح الحلوة</li>
+            <li>القلب اللي بيطمن</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <dialog id="modal">
+    <div class="modal">
+      <h2>❤️ رسالة مخصوص لـ حبيبتـي</h2>
+      <p>
+        مهما الدنيا اتغيّرت… وجودك ثابت عندي.
+        أنا جنبك وقت الفرح… ووقت الزعل… ووقت الصمت.
+        مريم، إنتِ أحلى صدفة وأغلى اختيار.
+      </p>
+      <div class="row">
+        <button class="btn-primary" id="closeModal">تمام ❤️</button>
+        <button class="btn-ghost" id="copyText">انسخ الرسالة</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // ====== (1) باسورد ======
+    const PASSWORD = "2072025"; // <-- غيّره هنا
+
+    const gate = document.getElementById("gate");
+    const pw = document.getElementById("pw");
+    const loginBtn = document.getElementById("loginBtn");
+    const enterMute = document.getElementById("enterMute");
+    const err = document.getElementById("err");
+
+    function shake(el){
+      el.animate(
+        [{transform:"translateX(0)"},{transform:"translateX(7px)"},{transform:"translateX(-7px)"},{transform:"translateX(0)"}],
+        {duration:260, iterations:1}
+      );
+    }
+
+    // ====== (2) القلوب بالخلفية ======
+    const float = document.getElementById("float");
+    function addBackgroundHearts(){
+      float.innerHTML = "";
+      const hearts = 26;
+      for (let i = 0; i < hearts; i++) {
+        const s = document.createElement("span");
+        s.style.left = (Math.random()*100) + "%";
+        s.style.animationDelay = (Math.random()*10) + "s";
+        s.style.animationDuration = (12 + Math.random()*12) + "s";
+        const size = 9 + Math.random()*13;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+        const alpha = 0.10 + Math.random()*0.22;
+        s.style.background = `rgba(225,29,72,${alpha.toFixed(2)})`;
+        s.style.top = (70 + Math.random()*60) + "vh";
+        float.appendChild(s);
+      }
+    }
+    addBackgroundHearts();
+
+    // ====== (3) كتابة تدريجية ======
+    const msg = "مريم… بحبك، وبحس إنك الهدوء وسط كل دوشة. 🖤❤️";
+    const typeEl = document.getElementById("type");
+    let idx = 0;
+    function type(){
+      if (idx <= msg.length){
+        typeEl.textContent = msg.slice(0, idx++);
+        requestAnimationFrame(() => setTimeout(type, 30));
+      }
+    }
+    type();
+
+    // ====== (4) مودال ======
+    const modal = document.getElementById("modal");
+    document.getElementById("openModal").addEventListener("click", () => modal.showModal());
+    document.getElementById("closeModal").addEventListener("click", () => modal.close());
+
+    document.getElementById("copyText").addEventListener("click", async () => {
+      const text = document.querySelector(".modal p").textContent.trim();
+      try{ await navigator.clipboard.writeText(text); alert("اتنسخت ❤️"); }
+      catch(e){ alert("انسخ يدويًا."); }
+    });
+
+    document.getElementById("sparkle").addEventListener("click", () => {
+      document.body.animate(
+        [{transform:"translateY(0)"},{transform:"translateY(2px)"},{transform:"translateY(-2px)"},{transform:"translateY(0)"}],
+        {duration:240, iterations:1}
+      );
+      const old = float.style.opacity;
+      float.style.opacity = "0.65";
+      addBackgroundHearts();
+      setTimeout(() => { float.style.opacity = old || "0.45"; }, 900);
+    });
+
+    // ====== (5) مشغل الموسيقى ======
+    const audio = document.getElementById("audio");
+    const playBtn = document.getElementById("playBtn");
+    const seek = document.getElementById("seek");
+    const vol = document.getElementById("vol");
+    const timeLabel = document.getElementById("timeLabel");
+    const songStatus = document.getElementById("songStatus");
+
+    function fmt(sec){
+      if (!isFinite(sec)) return "00:00";
+      sec = Math.max(0, Math.floor(sec));
+      const m = String(Math.floor(sec / 60)).padStart(2,"0");
+      const s = String(sec % 60).padStart(2,"0");
+      return `${m}:${s}`;
+    }
+
+    audio.volume = Number(vol.value);
+    vol.addEventListener("input", () => audio.volume = Number(vol.value));
+
+    audio.addEventListener("error", () => songStatus.textContent = "مش لاقي song.mp3");
+    audio.addEventListener("loadedmetadata", () => {
+      timeLabel.textContent = `${fmt(0)} / ${fmt(audio.duration)}`;
+      songStatus.textContent = "جاهز";
+    });
+
+    function setPlayingUI(isPlaying){
+      playBtn.textContent = isPlaying ? "⏸️ إيقاف" : "▶️ تشغيل";
+      songStatus.textContent = isPlaying ? "شغّال الآن" : "متوقف";
+    }
+
+    playBtn.addEventListener("click", async () => {
+      try{
+        if (audio.paused){ await audio.play(); setPlayingUI(true); }
+        else { audio.pause(); setPlayingUI(false); }
+      }catch(e){
+        songStatus.textContent = "اضغط تشغيل تاني";
+      }
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (isFinite(audio.duration) && audio.duration > 0){
+        seek.value = String((audio.currentTime / audio.duration) * 100);
+        timeLabel.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      }
+    });
+
+    seek.addEventListener("input", () => {
+      if (isFinite(audio.duration) && audio.duration > 0){
+        audio.currentTime = (Number(seek.value) / 100) * audio.duration;
+      }
+    });
+
+    audio.addEventListener("ended", () => { setPlayingUI(false); seek.value = "0"; });
+
+    // ====== دخول بالباسورد + تشغيل تلقائي بعد الدخول ======
+    async function enter(withMusic){
+      gate.style.display = "none";
+      if (!withMusic) return;
+      try{
+        await audio.play(); // هنا هيشتغل فورًا بعد اللمسة (مسموح)
+        setPlayingUI(true);
+      }catch(e){
+        songStatus.textContent = "اضغط تشغيل";
+      }
+    }
+
+    function tryLogin(withMusic){
+      if (pw.value === PASSWORD){
+        err.style.display = "none";
+        enter(withMusic);
+      }else{
+        err.style.display = "block";
+        shake(document.querySelector(".gateCard"));
+        pw.focus();
+      }
+    }
+
+    loginBtn.addEventListener("click", () => tryLogin(true));
+    enterMute.addEventListener("click", () => tryLogin(false));
+    pw.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") tryLogin(true);
+    });
+  </script>
+</body>
+</html>
